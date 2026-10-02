@@ -112,6 +112,15 @@ body {
   word-break: keep-all;
   text-shadow: 0 0 12px rgba(255, 255, 255, .25);
 }
+.verse-line { display: block; }
+.verse-line + .verse-line { margin-top: 10px; }
+.vn {
+  margin-right: 4px;
+  font-size: .55em;
+  color: var(--glow);
+  vertical-align: super;
+}
+.verse.long { font-size: clamp(24px, 6.4vw, 30px); line-height: 1.4; }
 .ref { margin: 16px 0 0; font-family: var(--hand); font-size: 24px; color: var(--muted); }
 .message {
   margin: 22px 0 0;

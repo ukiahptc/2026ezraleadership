@@ -22,7 +22,7 @@ function show(name) {
   const message = person.message || DEFAULT_WORD.message;
 
   $("who").textContent = name;
-  $("verse").textContent = word.verse;
+  renderVerse(word.verse);
   $("ref").textContent = word.ref;
   $("message").textContent = message;
   $("message").classList.toggle("hidden", !message);
@@ -37,6 +37,27 @@ function show(name) {
   card.classList.add("reveal");
 
   playSong(person.song || DEFAULT_SONG);
+}
+
+// 여러 절이면 절 번호를 작게 붙여 줄바꿈, 길면 글씨 크기를 줄임
+function renderVerse(verse) {
+  const box = $("verse");
+  box.textContent = "";
+  const parts = Array.isArray(verse) ? verse : [[null, verse]];
+  parts.forEach(([num, text]) => {
+    const line = document.createElement("span");
+    line.className = "verse-line";
+    if (num != null) {
+      const n = document.createElement("sup");
+      n.className = "vn";
+      n.textContent = num;
+      line.appendChild(n);
+    }
+    line.appendChild(document.createTextNode(text));
+    box.appendChild(line);
+  });
+  const len = parts.reduce((sum, [, t]) => sum + t.length, 0);
+  box.classList.toggle("long", len > 120);
 }
 
 // 아이폰은 사용자가 버튼을 누른 직후에만 소리 재생이 허용됨 → submit 안에서 호출
