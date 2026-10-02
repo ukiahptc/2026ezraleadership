@@ -30,6 +30,7 @@ function show(name) {
   setupPrayer(name, person.prayer);
 
   $("modal").classList.add("hidden");
+  $("heroWord").classList.add("hidden");
   const card = $("card");
   card.classList.remove("hidden");
   card.classList.remove("reveal");
@@ -108,9 +109,29 @@ $("nameForm").addEventListener("submit", (e) => {
 $("again").addEventListener("click", () => {
   audio.pause();
   prayer.pause();
+  $("card").classList.add("hidden");
+  $("heroWord").classList.remove("hidden");
   $("nameInput").value = "";
   $("modal").classList.remove("hidden");
   $("nameInput").focus();
 });
 
 window.addEventListener("load", () => $("nameInput").focus());
+
+// ===== 밤하늘 별·산 불빛 만들기 =====
+function scatter(box, count, cls, yMin, yMax) {
+  const frag = document.createDocumentFragment();
+  for (let i = 0; i < count; i++) {
+    const d = document.createElement("i");
+    d.className = cls;
+    d.style.left = Math.random() * 100 + "%";
+    d.style.top = yMin + Math.random() * (yMax - yMin) + "%";
+    d.style.animationDelay = (Math.random() * 6).toFixed(2) + "s";
+    d.style.animationDuration = (3 + Math.random() * 4).toFixed(2) + "s";
+    if (Math.random() < 0.2) d.classList.add("big");
+    frag.appendChild(d);
+  }
+  box.appendChild(frag);
+}
+scatter($("stars"), 140, "star", 0, 85);
+scatter($("lights"), 45, "light", 25, 95);

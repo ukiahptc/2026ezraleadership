@@ -3,15 +3,32 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>2026 에스라 순장</title>
+  <title>에스라, 이젠 안녕</title>
+  <meta name="theme-color" content="#0d1530">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&family=Noto+Sans+KR:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <!-- 밤하늘 배경: 별 + 산 + 불빛 -->
+  <div class="sky" aria-hidden="true">
+    <div id="stars" class="stars"></div>
+    <svg class="mountain" viewBox="0 0 1920 260" preserveAspectRatio="none">
+      <path d="M0 120 L36 114 L185 130 L335 80 L528 98 L680 52 L830 33 L960 0 L1085 32 L1240 55 L1390 95 L1560 76 L1735 120 L1885 105 L1920 112 L1920 260 L0 260 Z"/>
+    </svg>
+    <div id="lights" class="lights"></div>
+    <p class="signature">Ezra <small>2026</small></p>
+  </div>
+
   <main class="page">
-    <p class="eyebrow">2026 EZRA LEADERSHIP</p>
-    <h1 class="title">에스라 순장</h1>
+    <p class="eyebrow">에스라 다락방 · 마지막 순모임</p>
+    <h1 class="title">에스라,<br>이젠 안녕</h1>
+
+    <section id="heroWord" class="hero-word">
+      <p>너희는 세상의 빛이다.</p>
+      <p>산 위에 세워진 도시는 숨겨질 수 없다.</p>
+      <p class="hero-ref">마태복음 5장 14절</p>
+    </section>
 
     <section id="card" class="card hidden" aria-live="polite">
       <p class="greeting"><span id="who"></span> 순장님께 주시는 말씀</p>
