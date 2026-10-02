@@ -1,6 +1,8 @@
 const $ = (id) => document.getElementById(id);
 const audio = $("audio");
 const playBtn = $("playBtn");
+const prayer = $("prayer");
+let songWasPlaying = false;
 
 const normalize = (s) => s.replace(/\s+/g, "").trim();
 
@@ -8,19 +10,24 @@ const normalize = (s) => s.replace(/\s+/g, "").trim();
 function findPerson(name) {
   const key = normalize(name);
   for (const n in PEOPLE) {
-    if (normalize(n) === key) return PEOPLE[n];
+    if (normalize(n) === key) return { ...PEOPLE[n], name: n };
   }
   return null;
 }
 
 function show(name) {
-  const data = findPerson(name) || DEFAULT_WORD;
+  const person = findPerson(name) || {};
+  if (person.name) name = person.name; // 등록된 이름 표기로 통일
+  const word = person.verse ? person : DEFAULT_WORD;
+  const message = person.message || DEFAULT_WORD.message;
 
   $("who").textContent = name;
-  $("verse").textContent = data.verse;
-  $("ref").textContent = data.ref;
-  $("message").textContent = data.message || "";
-  $("message").classList.toggle("hidden", !data.message);
+  $("verse").textContent = word.verse;
+  $("ref").textContent = word.ref;
+  $("message").textContent = message;
+  $("message").classList.toggle("hidden", !message);
+
+  setupPrayer(name, person.prayer);
 
   $("modal").classList.add("hidden");
   const card = $("card");
@@ -29,7 +36,7 @@ function show(name) {
   void card.offsetWidth; // 애니메이션 재시작
   card.classList.add("reveal");
 
-  playSong(data.song || DEFAULT_SONG);
+  playSong(person.song || DEFAULT_SONG);
 }
 
 // 아이폰은 사용자가 버튼을 누른 직후에만 소리 재생이 허용됨 → submit 안에서 호출
@@ -56,6 +63,41 @@ audio.addEventListener("play", setIcon);
 audio.addEventListener("pause", setIcon);
 audio.addEventListener("error", () => $("player").classList.add("hidden"));
 
+// ===== 기도 녹음 =====
+// 기도를 들으면 노래는 잠시 멈추고, 기도가 끝나면 다시 이어서 재생
+function setupPrayer(name, src) {
+  prayer.pause();
+  $("prayerBox").classList.add("hidden");
+  if (!src) return;
+  $("prayerWho").textContent = name;
+  $("prayerState").textContent = "";
+  prayer.src = src;
+  prayer.load();
+}
+
+prayer.addEventListener("canplay", () => $("prayerBox").classList.remove("hidden"));
+prayer.addEventListener("error", () => $("prayerBox").classList.add("hidden"));
+
+$("prayerBtn").addEventListener("click", () => {
+  if (!prayer.paused) { prayer.pause(); return; }
+  songWasPlaying = !audio.paused;
+  audio.pause();
+  prayer.play();
+});
+prayer.addEventListener("play", () => {
+  $("prayerState").textContent = "기도를 듣고 있어요 · 다시 누르면 멈춤";
+});
+prayer.addEventListener("pause", () => {
+  if (!prayer.ended) $("prayerState").textContent = "일시정지됨";
+});
+prayer.addEventListener("ended", () => {
+  $("prayerState").textContent = "";
+  prayer.currentTime = 0;
+  if (songWasPlaying) audio.play();
+});
+// 기도 중에 노래 버튼을 누르면 기도는 멈춤
+audio.addEventListener("play", () => { if (!prayer.paused) prayer.pause(); });
+
 $("nameForm").addEventListener("submit", (e) => {
   e.preventDefault();
   const name = $("nameInput").value.trim();
@@ -65,6 +107,7 @@ $("nameForm").addEventListener("submit", (e) => {
 
 $("again").addEventListener("click", () => {
   audio.pause();
+  prayer.pause();
   $("nameInput").value = "";
   $("modal").classList.remove("hidden");
   $("nameInput").focus();

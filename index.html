@@ -19,6 +19,11 @@
       <p id="ref" class="ref"></p>
       <p id="message" class="message"></p>
 
+      <div id="prayerBox" class="prayer hidden">
+        <button id="prayerBtn" class="prayer-btn" type="button">🙏 <span id="prayerWho"></span> 순장님을 위한 기도 듣기</button>
+        <p id="prayerState" class="prayer-state"></p>
+      </div>
+
       <div id="player" class="player hidden">
         <button id="playBtn" class="play-btn" type="button" aria-label="재생/일시정지">❚❚</button>
         <span class="player-label">말씀과 함께 듣는 찬양</span>
@@ -40,6 +45,7 @@
   </div>
 
   <audio id="audio" loop preload="auto" playsinline></audio>
+  <audio id="prayer" preload="auto" playsinline></audio>
 
   <script src="data.js"></script>
   <script src="script.js"></script>

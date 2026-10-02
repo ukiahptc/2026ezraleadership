@@ -76,6 +76,20 @@ body {
   word-break: keep-all;
 }
 
+.prayer { margin-top: 28px; }
+.prayer-btn {
+  width: 100%;
+  padding: 16px;
+  font-size: 16px; font-weight: 600;
+  border: 1px solid var(--accent);
+  border-radius: 14px;
+  background: transparent;
+  color: var(--accent);
+  cursor: pointer;
+  word-break: keep-all;
+}
+.prayer-state { margin: 10px 0 0; min-height: 1em; font-size: 13px; color: var(--muted); }
+
 .player {
   margin-top: 28px;
   display: inline-flex;
