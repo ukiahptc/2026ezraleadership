@@ -30,7 +30,6 @@ function show(name) {
   setupPrayer(name, person.prayer);
 
   $("modal").classList.add("hidden");
-  $("heroWord").classList.add("hidden");
   const card = $("card");
   card.classList.remove("hidden");
   card.classList.remove("reveal");
@@ -110,7 +109,6 @@ $("again").addEventListener("click", () => {
   audio.pause();
   prayer.pause();
   $("card").classList.add("hidden");
-  $("heroWord").classList.remove("hidden");
   $("nameInput").value = "";
   $("modal").classList.remove("hidden");
   $("nameInput").focus();
