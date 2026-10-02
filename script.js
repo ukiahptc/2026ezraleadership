@@ -29,6 +29,10 @@ function show(name) {
 
   setupPrayer(name, person.prayer);
 
+  $("songTitle").textContent = person.songTitle ? `🎵 ${person.songTitle}` : "말씀과 함께 듣는 찬양";
+  $("ytBtn").classList.toggle("hidden", !person.youtube);
+  if (person.youtube) $("ytBtn").href = person.youtube;
+
   $("modal").classList.add("hidden");
   const card = $("card");
   card.classList.remove("hidden");
@@ -62,7 +66,8 @@ function renderVerse(verse) {
 
 // 아이폰은 사용자가 버튼을 누른 직후에만 소리 재생이 허용됨 → submit 안에서 호출
 function playSong(src) {
-  if (!src) return;
+  $("player").classList.add("hidden");
+  if (!src) { audio.pause(); audio.removeAttribute("src"); return; }
   if (!audio.src.endsWith(src)) audio.src = src;
   audio.currentTime = 0;
   audio.play()
@@ -118,6 +123,8 @@ prayer.addEventListener("ended", () => {
 });
 // 기도 중에 노래 버튼을 누르면 기도는 멈춤
 audio.addEventListener("play", () => { if (!prayer.paused) prayer.pause(); });
+
+$("ytBtn").addEventListener("click", () => { audio.pause(); prayer.pause(); });
 
 $("nameForm").addEventListener("submit", (e) => {
   e.preventDefault();

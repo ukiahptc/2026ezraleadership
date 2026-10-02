@@ -34,8 +34,10 @@
 
       <div id="player" class="player hidden">
         <button id="playBtn" class="play-btn" type="button" aria-label="재생/일시정지">❚❚</button>
-        <span class="player-label">말씀과 함께 듣는 찬양</span>
+        <span id="songTitle" class="player-label">말씀과 함께 듣는 찬양</span>
       </div>
+
+      <a id="ytBtn" class="yt-btn hidden" href="#" target="_blank" rel="noopener">▶ 유튜브로 찬양 듣기</a>
 
       <button id="again" class="link-btn" type="button">다른 이름으로 보기</button>
     </section>
@@ -52,7 +54,7 @@
     </form>
   </div>
 
-  <audio id="audio" loop preload="auto" playsinline></audio>
+  <audio id="audio" loop preload="none" playsinline></audio>
   <audio id="prayer" preload="auto" playsinline></audio>
 
   <script src="data.js"></script>
