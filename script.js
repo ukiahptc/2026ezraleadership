@@ -98,10 +98,12 @@ function setupPrayer(name, src) {
   $("prayerWho").textContent = name;
   $("prayerState").textContent = "";
   prayer.src = src;
-  prayer.load();
+  // 아이폰은 미리 불러오기를 안 해서 canplay 를 기다리면 버튼이 안 뜸 → 파일이 있는지만 확인
+  fetch(src, { method: "HEAD" })
+    .then((r) => { if (r.ok && prayer.getAttribute("src") === src) $("prayerBox").classList.remove("hidden"); })
+    .catch(() => {});
 }
 
-prayer.addEventListener("canplay", () => $("prayerBox").classList.remove("hidden"));
 prayer.addEventListener("error", () => $("prayerBox").classList.add("hidden"));
 
 $("prayerBtn").addEventListener("click", () => {
